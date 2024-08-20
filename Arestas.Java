@@ -1,74 +1,74 @@
-public class Aresta<T> implements Cloneable {
-    private Vertice<?> origem;
-    private Vertice<?> destino;
-    private T dado;
+public class Aresta<X> implements Cloneable {
+    private Vertice<X> origem;
+    private Vertice<X> destino;
+    private X info;
 
-    public Aresta(Vertice<?> origem, Vertice<?> destino, T dado) {
+    public Aresta(Vertice<X> origem, Vertice<X> destino, X info) {
         this.origem = origem;
         this.destino = destino;
-        this.dado = dado;
+        this.info = info;
     }
 
     // Getters e Setters
-    public Vertice<?> getOrigem() {
+    public Vertice<X> getOrigem() {
         return origem;
     }
 
-    public void setOrigem(Vertice<?> origem) {
+    public void setOrigem(Vertice<X> origem) {
         this.origem = origem;
     }
 
-    public Vertice<?> getDestino() {
+    public Vertice<X> getDestino() {
         return destino;
     }
 
-    public void setDestino(Vertice<?> destino) {
+    public void setDestino(Vertice<X> destino) {
         this.destino = destino;
     }
 
-    public T getDado() {
-        return dado;
+    public X getInfo() {
+        return info;
     }
 
-    public void setDado(T dado) {
-        this.dado = dado;
+    public void setInfo(X info) {
+        this.info = info;
     }
 
     // Método toString para exibir a aresta
     @Override
     public String toString() {
         return "Aresta{" +
-                "origem=" + origem +
-                ", destino=" + destino +
-                ", dado=" + dado +
+                "origem = " + origem +
+                ", destino = " + destino +
+                ", info = " + info+
                 '}';
     }
 
     // Método equals para comparar duas arestas
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Aresta<?> aresta = (Aresta<?>) o;
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Aresta<X> aresta = (Aresta<X>) obj;
         return origem.equals(aresta.origem) &&
                 destino.equals(aresta.destino) &&
-                dado.equals(aresta.dado);
+                info.equals(aresta.info;
     }
 
     // Método hashCode para gerar o código hash da aresta
     @Override
     public int hashCode() {
         int result = origem.hashCode();
-        result = 31 * result + destino.hashCode();
-        result = 31 * result + dado.hashCode();
+        result = 13 * result + destino.hashCode();
+        result = 13 * result + info.hashCode();
         return result;
     }
 
     // Método clone para criar uma cópia da aresta
     @Override
-    public Aresta<T> clone() {
+    public Aresta<X> clone() {
         try {
-            return (Aresta<T>) super.clone();
+            return (Aresta<X>) super.clone();
         } catch (CloneNotSupportedException e) {
             throw new AssertionError(); // Não deveria acontecer, já que implementamos Cloneable
         }

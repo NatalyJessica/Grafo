@@ -1,47 +1,48 @@
-public class Vertice<T> implements Cloneable {
-    private T dado;
+public class Vertice<X> implements Cloneable 
+{
+    private X info;
 
-    public Vertice(T dado) {
-        this.dado = dado;
+    public Vertice(X info) {
+        this.info = info;
     }
 
     // Getter e Setter para o dado
-    public T getDado() {
-        return dado;
+    public X getInfo() {
+        return info;
     }
 
-    public void setDado(T dado) {
-        this.dado = dado;
+    public void setInfo(X info) {
+        this.info = info;
     }
 
     // Método toString para exibir o vértice
     @Override
     public String toString() {
         return "Vertice{" +
-                "dado=" + dado +
+                "info =" + info +
                 '}';
     }
 
     // Método equals para comparar dois vértices
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Vertice<?> vertice = (Vertice<?>) o;
-        return dado.equals(vertice.dado);
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Vertice<X> vertice = (Vertice<X>) obj;
+        return info.equals(info);
     }
 
     // Método hashCode para gerar o código hash do vértice
     @Override
     public int hashCode() {
-        return dado.hashCode();
+        return info.hashCode();
     }
 
     // Método clone para criar uma cópia do vértice
     @Override
-    public Vertice<T> clone() {
+    public Vertice<X> clone() {
         try {
-            return (Vertice<T>) super.clone();
+            return (Vertice<X>) super.clone();
         } catch (CloneNotSupportedException e) {
             throw new AssertionError(); // Não deveria acontecer, já que implementamos Cloneable
         }
