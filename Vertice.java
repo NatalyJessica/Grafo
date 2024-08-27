@@ -30,6 +30,6 @@ public class Vertice<X> {
 
     @Override
     public String toString() {
-        return "Vertice{" + "info=" + info + '}';
+        return "{"  + info + '}';
     }
 }
