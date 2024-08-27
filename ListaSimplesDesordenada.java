@@ -134,21 +134,39 @@ public class ListaSimplesDesordenada<X> {
         return ret;
     }
 
-    // Método para remover o item do início da lista
-    public void removaItemDoInicio() throws Exception {
-        if (this.primeiro == null)
-            throw new Exception("Nada a remover");
+   
+    public void removaItemIndicado(X i) throws Exception {
+        if (i == null)
+            throw new Exception("Informacao ausente");
 
-        // Se há apenas um nó, a lista ficará vazia
-        if (this.primeiro == this.ultimo) {
-            this.primeiro = this.ultimo = null;
-            return;
+        boolean removeu = false;
+
+        while (this.primeiro != null && i.equals(this.primeiro.getInfo())) {
+            if (this.ultimo == this.primeiro)
+                this.ultimo = null;
+
+            this.primeiro = this.primeiro.getProx();
+            removeu = true;
         }
 
-        // Remove o primeiro nó
-        this.primeiro = this.primeiro.getProx();
-    }
+        if (this.primeiro != null) {
+            No atual = this.primeiro;
+            while (atual.getProx() != null) {
+                if (i.equals(atual.getProx().getInfo())) {
+                    if (this.ultimo == atual.getProx())
+                        this.ultimo = atual;
 
+                    atual.setProx(atual.getProx().getProx());
+                    removeu = true;
+                } else {
+                    atual = atual.getProx();
+                }
+            }
+        }
+
+        if (!removeu)
+            throw new Exception("Informacao inexistente");
+    }
     // Método para remover o item do final da lista
     public void removaItemDoFinal() throws Exception {
         if (this.primeiro == null)
