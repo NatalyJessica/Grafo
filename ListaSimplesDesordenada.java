@@ -1,368 +1,365 @@
 import java.lang.reflect.*;
 
-public class ListaSimplesDesordenada <X>
-{
-    private class No
-    {
-        private X  info;
-        private No prox;
+public class ListaSimplesDesordenada<X> {
+    // Classe interna representando um nó da lista
+    private class No {
+        private X info; // Informação armazenada no nó
+        private No prox; // Referência para o próximo nó na lista
 
-        public No (X i, No p)
-        {
+        // Construtor que inicializa o nó com uma informação e o próximo nó
+        public No(X i, No p) {
             this.info = i;
             this.prox = p;
         }
 
-        public No (X i)
-        {
+        // Construtor que inicializa o nó com uma informação, sem próximo nó (último nó)
+        public No(X i) {
             this.info = i;
             this.prox = null;
         }
 
-        public X getInfo ()
-        {
+        // Método para obter a informação armazenada no nó
+        public X getInfo() {
             return this.info;
         }
 
-        public No getProx ()
-        {
+        // Método para obter a referência para o próximo nó
+        public No getProx() {
             return this.prox;
         }
 
-        public void setInfo (X i)
-        {
+        // Método para definir a informação armazenada no nó
+        public void setInfo(X i) {
             this.info = i;
         }
 
-        public void setProx (No p)
-        {
+        // Método para definir a referência para o próximo nó
+        public void setProx(No p) {
             this.prox = p;
         }
-    } //fim da classe No
+    } // fim da classe No
 
+    // Referências para o primeiro e o último nó da lista
     private No primeiro, ultimo;
 
-    public ListaSimplesDesordenada ()
-    {
-        this.primeiro=this.ultimo=null;
+    // Construtor da lista, inicializa uma lista vazia
+    public ListaSimplesDesordenada() {
+        this.primeiro = this.ultimo = null;
     }
 
-    private X meuCloneDeX (X x)
-    {
-        X ret=null;
+    // Método privado para clonar um objeto do tipo X, se ele for clonável
+    private X meuCloneDeX(X x) {
+        X ret = null;
 
-        try
-        {
-            Class<?> classe         = x.getClass();
-            Class<?>[] tipoDosParms = null;
-            Method metodo           = classe.getMethod("clone",tipoDosParms);
-            Object[] parms          = null;
-            ret                     = (X)metodo.invoke(x,parms);
+        try {
+            // Obtendo a classe do objeto e o método clone
+            Class<?> classe = x.getClass();
+            Method metodo = classe.getMethod("clone");
+            // Invocando o método clone para criar uma cópia do objeto
+            ret = (X) metodo.invoke(x);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException erro) {
+            // Se o método clone não existir ou houver algum erro na clonagem, lança uma exceção em tempo de execução
+            throw new RuntimeException("Erro ao clonar o objeto", erro);
         }
-        catch(NoSuchMethodException erro)
-        {}
-        catch(IllegalAccessException erro)
-        {}
-        catch(InvocationTargetException erro)
-        {}
 
         return ret;
     }
 
-    public void guardeUmItemNoInicio (X i) throws Exception
-    {
-        if (i==null)
-            throw new Exception ("Informacao ausente");
+    // Método para inserir um item no início da lista
+    public void guardeUmItemNoInicio(X i) throws Exception {
+        if (i == null)
+            throw new Exception("Informação ausente");
 
-        X inserir=null;
+        X inserir;
+        // Se o item é clonável, clona o item antes de inserir
         if (i instanceof Cloneable)
-            inserir = (X)meuCloneDeX(i);
+            inserir = meuCloneDeX(i);
         else
             inserir = i;
-            
-        this.primeiro = new No (inserir,this.primeiro);
 
-        if (this.ultimo==null)
-            this.ultimo=this.primeiro;
+        // Insere o novo nó no início da lista
+        this.primeiro = new No(inserir, this.primeiro);
+
+        // Se a lista estava vazia, o novo nó também é o último
+        if (this.ultimo == null)
+            this.ultimo = this.primeiro;
     }
 
-    public void guardeUmItemNoFinal (X i) throws Exception
-    {
-        if (i==null)
-            throw new Exception ("Informacao ausente");
+    // Método para inserir um item no final da lista
+    public void guardeUmItemNoFinal(X i) throws Exception {
+        if (i == null)
+            throw new Exception("Informação ausente");
 
-        X inserir=null;
+        X inserir;
+        // Se o item é clonável, clona o item antes de inserir
         if (i instanceof Cloneable)
-            inserir = (X)meuCloneDeX(i);
+            inserir = meuCloneDeX(i);
         else
             inserir = i;
-            
-        if (this.ultimo==null) // && this.primeiro==null
-        {
-            this.ultimo   = new No (inserir);
+
+        // Se a lista está vazia, o novo nó é o primeiro e o último
+        if (this.ultimo == null) {
+            this.ultimo = new No(inserir);
             this.primeiro = this.ultimo;
-        }
-        else
-        {
-            this.ultimo.setProx (new No (inserir));
+        } else {
+            // Caso contrário, insere no final da lista
+            this.ultimo.setProx(new No(inserir));
             this.ultimo = this.ultimo.getProx();
         }
     }
-    
-    public X recupereItemDoInicio () throws Exception
-    {
-        if (this.primeiro==null/*&&this.fim==null)*/)
-            throw new Exception ("Nada a obter");
+
+    // Método para recuperar o item do início da lista
+    public X recupereItemDoInicio() throws Exception {
+        if (this.primeiro == null)
+            throw new Exception("Nada a obter");
 
         X ret = this.primeiro.getInfo();
+        // Se o item é clonável, retorna uma cópia do item
         if (ret instanceof Cloneable)
-            ret = meuCloneDeX (ret);
-            
+            ret = meuCloneDeX(ret);
+
         return ret;
     }
 
-    public X recupereItemDoFinal () throws Exception
-    {
-        if (this.primeiro==null/*&&this.ultimo==null)*/)
-            throw new Exception ("Nada a obter");
+    // Método para recuperar o item do final da lista
+    public X recupereItemDoFinal() throws Exception {
+        if (this.primeiro == null)
+            throw new Exception("Nada a obter");
 
         X ret = this.ultimo.getInfo();
+        // Se o item é clonável, retorna uma cópia do item
         if (ret instanceof Cloneable)
-            ret = meuCloneDeX (ret);
-            
+            ret = meuCloneDeX(ret);
+
         return ret;
     }
 
-    public void removaItemDoInicio () throws Exception
-    {
-        if (this.primeiro==null /*&& this.ultimo==null*/)
-            throw new Exception ("Nada a remover");
+    // Método para remover o item do início da lista
+    public void removaItemDoInicio() throws Exception {
+        if (this.primeiro == null)
+            throw new Exception("Nada a remover");
 
-        if (this.primeiro==this.ultimo) //so 1 elemento
-        {
-            this.primeiro=this.ultimo=null;
+        // Se há apenas um nó, a lista ficará vazia
+        if (this.primeiro == this.ultimo) {
+            this.primeiro = this.ultimo = null;
             return;
         }
 
+        // Remove o primeiro nó
         this.primeiro = this.primeiro.getProx();
     }
-    
-    public void removaItemDoFinal () throws Exception
-    {
-        if (this.primeiro==null/*&&this.ultimo==null*/)
-            throw new Exception ("Nada a remover");
 
-        if (this.primeiro==this.ultimo) //so 1 elemento
-        {
-            this.primeiro=this.ultimo=null;
+    // Método para remover o item do final da lista
+    public void removaItemDoFinal() throws Exception {
+        if (this.primeiro == null)
+            throw new Exception("Nada a remover");
+
+        // Se há apenas um nó, a lista ficará vazia
+        if (this.primeiro == this.ultimo) {
+            this.primeiro = this.ultimo = null;
             return;
         }
 
+        // Percorre a lista para encontrar o penúltimo nó
         No atual;
-        for (atual=this.primeiro;
-             atual.getProx()!=this.ultimo;
-             atual=atual.getProx())
-             /*comando vazio*/;
+        for (atual = this.primeiro; atual.getProx() != this.ultimo; atual = atual.getProx())
+            ; // comando vazio
 
+        // Remove o último nó
         atual.setProx(null);
-        this .ultimo=atual;
+        this.ultimo = atual;
     }
-    
-    public int getQuantidade ()
-    {
-        No  atual=this.primeiro;
-        int ret  =0;
 
-        while (atual!=null)
-        {
-            ret++;                
+    // Método para obter a quantidade de itens na lista
+    public int getQuantidade() {
+        No atual = this.primeiro;
+        int ret = 0;
+
+        // Conta o número de nós na lista
+        while (atual != null) {
+            ret++;
             atual = atual.getProx();
         }
-        
+
         return ret;
     }
 
-    public boolean tem (X i) throws Exception
-    {
-        if (i==null)
-            throw new Exception ("Informacao ausente");
-		
-        No atual=this.primeiro;
+    // Método para verificar se um item está presente na lista
+    public boolean tem(X i) throws Exception {
+        if (i == null)
+            throw new Exception("Informação ausente");
 
-        while (atual!=null)
-        {
+        No atual = this.primeiro;
+
+        // Percorre a lista comparando cada nó com o item procurado
+        while (atual != null) {
             if (i.equals(atual.getInfo()))
                 return true;
-                
+
             atual = atual.getProx();
         }
-        
+
         return false;
-	}
-	
-	public void removaItemIndicado (X i) throws Exception
-	{
-        if (i==null)
-            throw new Exception ("Informacao ausente");
+    }
 
-        boolean removeu=false;
+    // Método para remover um item específico da lista
+    public void removaItemIndicado(X i) throws Exception {
+        if (i == null)
+            throw new Exception("Informação ausente");
 
-        for(;;) // FOR EVER (repete até break)
-        {
-            if (this.primeiro==null/*&&this.ultimo==null*/)
+        boolean removeu = false;
+
+        // Remove todos os nós que contêm o item indicado no início da lista
+        for (;;) {
+            if (this.primeiro == null)
                 break;
 
             if (!i.equals(this.primeiro.getInfo()))
                 break;
-                
-            if (this.ultimo==this.primeiro)
-                this.ultimo=null;
 
-            this.primeiro=this.primeiro.getProx();
+            if (this.ultimo == this.primeiro)
+                this.ultimo = null;
 
-            removeu=true;
+            this.primeiro = this.primeiro.getProx();
+
+            removeu = true;
         }
 
-        if (this.primeiro!=null/*&&this.ultimo!=null*/)
-        {
-            No atual=this.primeiro;
+        // Se a lista ainda tem elementos, continua removendo os nós com o item indicado
+        if (this.primeiro != null) {
+            No atual = this.primeiro;
 
-            forever:for(;;) // repete ate break
-            {
-                if (atual.getProx()==null)
+            forever: for (;;) {
+                if (atual.getProx() == null)
                     break;
 
-                while (i.equals(atual.getProx().getInfo()))
-                {
-                    if (this.ultimo==atual.getProx())
-                        this.ultimo=atual;
+                while (i.equals(atual.getProx().getInfo())) {
+                    if (this.ultimo == atual.getProx())
+                        this.ultimo = atual;
 
                     atual.setProx(atual.getProx().getProx());
 
-                    removeu=true;
+                    removeu = true;
 
-                    if (atual==this.ultimo)
+                    if (atual == this.ultimo)
                         break forever;
                 }
 
-                atual=atual.getProx();
+                atual = atual.getProx();
             }
         }
 
+        // Se o item não foi encontrado na lista, lança uma exceção
         if (!removeu)
-            throw new Exception ("Informacao inexistente");
-	}
-
-    public boolean isVazia ()
-    {
-        return this.primeiro==null/*&&this.ultimo==null*/;
+            throw new Exception("Informação inexistente");
     }
-    
-    public String toString ()
-    {
-        String ret="[";
 
-        No atual=this.primeiro;
+    // Método para verificar se a lista está vazia
+    public boolean isVazia() {
+        return this.primeiro == null;
+    }
 
-        while (atual!=null)
-        {
-            ret=ret+atual.getInfo();
+    // Método para representar a lista como uma string
+    public String toString() {
+        String ret = "[";
 
-            if (atual!=this.ultimo)
-                ret=ret+",";
+        No atual = this.primeiro;
 
-            atual=atual.getProx();
+        // Percorre a lista e adiciona cada item à string
+        while (atual != null) {
+            ret = ret + atual.getInfo();
+
+            if (atual != this.ultimo)
+                ret = ret + ",";
+
+            atual = atual.getProx();
         }
 
-        return ret+"]";
+        return ret + "]";
     }
 
-    public boolean equals (Object obj)
-    {
-        if (this==obj)
+    // Método para comparar se duas listas são iguais
+    public boolean equals(Object obj) {
+        if (this == obj)
             return true;
 
-        if (obj==null)
+        if (obj == null)
             return false;
 
-        if (this.getClass()!=obj.getClass())
+        if (this.getClass() != obj.getClass())
             return false;
 
-        ListaSimplesDesordenada<X> lista =
-       (ListaSimplesDesordenada<X>)obj;
+        ListaSimplesDesordenada<X> lista = (ListaSimplesDesordenada<X>) obj;
 
-        No atualThis =this .primeiro;
-        No atualLista=lista.primeiro;
+        No atualThis = this.primeiro;
+        No atualLista = lista.primeiro;
 
-        while (atualThis!=null && atualLista!=null)
-        {
+        // Compara cada nó das duas listas
+        while (atualThis != null && atualLista != null) {
             if (!atualThis.getInfo().equals(atualLista.getInfo()))
                 return false;
 
-            atualThis  = atualThis .getProx();
+            atualThis = atualThis.getProx();
             atualLista = atualLista.getProx();
         }
 
-        if (atualThis!=null  /* && atualLista==null */)
+        // Verifica se as duas listas têm o mesmo tamanho
+        if (atualThis != null || atualLista != null)
             return false;
 
-        if (atualLista!=null /* && atualThis ==null */)
-            return false;
-
-        // atualThis==null && atualLista==null
         return true;
     }
-    
-    public int hashCode ()
-    {
-        final int PRIMO = 13; // qualquer número primo serve
-        
-        int ret=666; // qualquer inteiro positivo serve
 
-        for (No atual=this.primeiro;
-             atual!=null;
-             atual=atual.getProx())
-             ret = PRIMO*ret + atual.getInfo().hashCode();
+    // Método para calcular o hash code da lista
+    public int hashCode() {
+        final int PRIMO = 13; // Número primo usado no cálculo do hash
+        int ret = 30; // Valor inicial arbitrário
 
-        if (ret<0) ret = -ret;
+        // Percorre a lista e calcula o hash code com base nos itens
+        for (No atual = this.primeiro; atual != null; atual = atual.getProx())
+            ret = PRIMO * ret + atual.getInfo().hashCode();
+
+        // Garante que o hash code seja positivo
+        if (ret < 0)
+            ret = -ret;
 
         return ret;
     }
-    
-    // construtor de copia
-    public ListaSimplesDesordenada (ListaSimplesDesordenada<X> modelo) throws Exception
-    {
-        if (modelo==null)
-            throw new Exception ("Modelo ausente");
 
-        if (modelo.primeiro==null)
-            return; // sai do construtor, pq this.primeiro ja é null
+    // Construtor de cópia
+    public ListaSimplesDesordenada(ListaSimplesDesordenada<X> modelo) throws Exception {
+        if (modelo == null)
+            throw new Exception("Modelo ausente");
 
-        this.primeiro = new No (modelo.primeiro.getInfo());
+        // Se o modelo está vazio, a nova lista também estará vazia
+        if (modelo.primeiro == null)
+            return;
 
-        No atualDoThis   = this  .primeiro;
+        // Clona o primeiro nó da lista
+        this.primeiro = new No(modelo.primeiro.getInfo());
+
+        No atualDoThis = this.primeiro;
         No atualDoModelo = modelo.primeiro.getProx();
 
-        while (atualDoModelo!=null)
-        {
-            atualDoThis.setProx (new No (atualDoModelo.getInfo()));
-            atualDoThis   = atualDoThis  .getProx ();
-            atualDoModelo = atualDoModelo.getProx ();
+        // Clona os nós restantes
+        while (atualDoModelo != null) {
+            atualDoThis.setProx(new No(atualDoModelo.getInfo()));
+            atualDoThis = atualDoThis.getProx();
+            atualDoModelo = atualDoModelo.getProx();
         }
 
         this.ultimo = atualDoThis;
     }
 
-    public Object clone ()
-    {
-        ListaSimplesDesordenada<X> ret=null;
+    // Método para clonar a lista
+    public Object clone() {
+        ListaSimplesDesordenada<X> ret = null;
 
-        try
-        {
-            ret = new ListaSimplesDesordenada (this);
+        try {
+            ret = new ListaSimplesDesordenada<>(this);
+        } catch (Exception erro) {
+            // O construtor de cópia só lança exceção se o modelo for null, o que não ocorre aqui
         }
-        catch (Exception erro)
-        {} // sei que this NUNCA é null e o contrutor de copia da erro quando seu parametro é null
 
         return ret;
     }
