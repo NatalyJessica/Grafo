@@ -220,58 +220,6 @@ public class ListaSimplesDesordenada<X> {
         return false;
     }
 
-    // Método para remover um item específico da lista
-    public void removaItemIndicado(X i) throws Exception {
-        if (i == null)
-            throw new Exception("Informação ausente");
-
-        boolean removeu = false;
-
-        // Remove todos os nós que contêm o item indicado no início da lista
-        for (;;) {
-            if (this.primeiro == null)
-                break;
-
-            if (!i.equals(this.primeiro.getInfo()))
-                break;
-
-            if (this.ultimo == this.primeiro)
-                this.ultimo = null;
-
-            this.primeiro = this.primeiro.getProx();
-
-            removeu = true;
-        }
-
-        // Se a lista ainda tem elementos, continua removendo os nós com o item indicado
-        if (this.primeiro != null) {
-            No atual = this.primeiro;
-
-            forever: for (;;) {
-                if (atual.getProx() == null)
-                    break;
-
-                while (i.equals(atual.getProx().getInfo())) {
-                    if (this.ultimo == atual.getProx())
-                        this.ultimo = atual;
-
-                    atual.setProx(atual.getProx().getProx());
-
-                    removeu = true;
-
-                    if (atual == this.ultimo)
-                        break forever;
-                }
-
-                atual = atual.getProx();
-            }
-        }
-
-        // Se o item não foi encontrado na lista, lança uma exceção
-        if (!removeu)
-            throw new Exception("Informação inexistente");
-    }
-
     // Método para verificar se a lista está vazia
     public boolean isVazia() {
         return this.primeiro == null;
