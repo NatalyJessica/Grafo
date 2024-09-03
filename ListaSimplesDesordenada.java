@@ -47,6 +47,14 @@ public class ListaSimplesDesordenada<X> {
         this.primeiro = this.ultimo = null;
     }
 
+    public X getPrimeiro() {
+        if (this.primeiro == null) {
+            return null; // Retorna null se a lista estiver vazia
+        }
+        return this.primeiro.getInfo(); // Retorna a informação do primeiro nó
+    }
+
+    
     // Método privado para clonar um objeto do tipo X, se ele for clonável
     private X meuCloneDeX(X x) {
         X ret = null;
