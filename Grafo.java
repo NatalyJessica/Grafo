@@ -11,30 +11,35 @@ public class Grafo<X> {
 
     public void adicionarVertice(X info) throws Exception{
         if(info == null){
-            System.out.println("Informação ausente");
+            throw new Exception("Informação ausente");
         }
         Vertice<X> vertice = new Vertice<>(info);
         vertices.guardeUmItemNoInicio(vertice);
     }
 
-    public Vertice<X> buscarVertice(X info){
-        //verificar se tem informação
-        if(info == null){
-            System.out.println("Informação ausente");
+    public Vertice<X> buscarVertice(X info) throws Exception {
+        if (info == null) {
+            throw new Exception("Informação ausente");
         }
-
-        No<Vertice<X>> atual = vertices.getPrimeiro();
-        while(atual != null){
-          Vertice<X> v = atual.getInfo();
-            if(v.getInfo().equals(info)){
-                return v;
+    
+        Vertice<X> achouVertice = new Vertice<>(info);
+    
+        // Verifica se o vértice existe na lista de vértices
+        if (vertices.tem(achouVertice)) {
+            // Percorre a lista para encontrar o vértice e retorná-lo
+            No atual = vertices.getPrimeiro(); // Acesso ao primeiro nó da lista
+            while (atual != null) {
+                Vertice<X> vertice = atual.getInfo();
+                if (vertice.equals(achouVertice)) {
+                    return vertice;
+                }
+                atual = atual.getProx();
             }
-
-            atual= atual.getProx();
         }
-
+    
         return null;
     }
+    
 
     public void adicionarAresta(Vertice<X> origemInfo, Vertice<X> destinoInfo, X info)throws Exception{
         if(origemInfo == null || destinoInfo == null || info == null){
