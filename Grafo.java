@@ -29,7 +29,21 @@ public class Grafo<X> {
         }
 
         return null;
+    }
+
+    public void adicionarAresta(Vertece<X> o, Vertece<X> d, X i){
+        if(o == null || d == null || i == null){
+            System.out.printl("Alguma informação está ausente");
+        }
+        Vertice<X> origem = encontrarVertice(origemInfo);
+        Vertice<X> destino = encontrarVertice(destinoInfo);
+        if (origem == null || destino == null){
+            throw new Exception("Vértice não encontrado");
+        } 
         
+        Aresta<X> aresta = new Aresta<>(origem, destino, i);
+        arestas.guardeUmItemNoInicio(aresta):
+            
     }
 
     @Override
