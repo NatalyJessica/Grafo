@@ -9,6 +9,8 @@ public class Main {
             grafo.adicionarVertice("B");
             grafo.adicionarVertice("C");
 
+            grafo.adicionarAresta("A","B", "1");
+
             System.out.println(grafo);
 
         } catch (Exception e) {
