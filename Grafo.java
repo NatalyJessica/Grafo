@@ -10,14 +10,17 @@ public class Grafo<X> {
     }
 
     public void adicionarVertice(X info) throws Exception{
+        if(info = null){
+            System.out.println("Informação ausente");
+        }
         Vertice<X> novo = new Vertice<>(info);
         vertices.guardeUmItemNoInicio(novo);
     }
 
-    public Vertice<X> buscarVertesse(X info){
+    public Vertice<X> buscarVertece(X info){
         //verificar se tem informação
         if(info == null)
-            System.out.printl("Informação ausente");
+            System.out.println("Informação ausente");
         No<Vertice<X>> atual = this.vertices.getPrimeiro();
         while(atual != null){
           Vertice<X> v = atual.getInfo();
@@ -31,9 +34,9 @@ public class Grafo<X> {
         return null;
     }
 
-    public void adicionarAresta(Vertece<X> o, Vertece<X> d, X i){
-        if(o == null || d == null || i == null){
-            System.out.printl("Alguma informação está ausente");
+    public void adicionarAresta(Vertice<X> origemInfo, Vertice<X> destinoInfo, X info){
+        if(origemInfo == null || destinoInfo == null || info == null){
+            System.out.println("Alguma informação está ausente");
         }
         Vertice<X> origem = encontrarVertice(origemInfo);
         Vertice<X> destino = encontrarVertice(destinoInfo);
@@ -41,7 +44,7 @@ public class Grafo<X> {
             throw new Exception("Vértice não encontrado");
         } 
         
-        Aresta<X> aresta = new Aresta<>(origem, destino, i);
+        Aresta<X> aresta = new Aresta<>(origem, destino, info);
         arestas.guardeUmItemNoInicio(aresta):
             
     }
