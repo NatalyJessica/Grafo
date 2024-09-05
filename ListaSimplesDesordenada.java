@@ -142,6 +142,25 @@ public class ListaSimplesDesordenada<X> {
         return ret;
     }
 
+    public X buscarItem(X item) throws Exception {
+        if (item == null) {
+            throw new Exception("Informação não pode ser nula");
+        }
+    
+        No atual = this.primeiro;
+    
+        // Percorre a lista para encontrar o item
+        while (atual != null) {
+            if (item.equals(atual.getInfo())) {
+                return atual.getInfo();
+            }
+            atual = atual.getProx();
+        }
+    
+        // Retorna null se o item não for encontrado
+        return null;
+    }
+    
    
     public void removaItemIndicado(X i) throws Exception {
         if (i == null)

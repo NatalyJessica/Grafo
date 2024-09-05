@@ -10,6 +10,7 @@ public class Main {
             grafo.adicionarVertice("C");
 
             grafo.adicionarAresta("A","B", "1");
+            grafo.adicionarAresta("A","B", "2");
 
             System.out.println(grafo);
 
