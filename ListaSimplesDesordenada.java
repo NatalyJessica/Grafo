@@ -1,6 +1,7 @@
 import java.lang.reflect.*;
+import java.util.Iterator;
 
-public class ListaSimplesDesordenada<X> {
+public class ListaSimplesDesordenada<X> implements Iterable<X> {
     // Classe interna representando um nó da lista
     private class No {
         private X info; // Informação armazenada no nó
@@ -356,4 +357,24 @@ public class ListaSimplesDesordenada<X> {
 
         return ret;
     }
+
+    @Override
+    public Iterator<X> iterator() {
+        return new Iterator<X>() {
+            private No atual = primeiro;
+
+            @Override
+            public boolean hasNext() {
+                return atual != null;
+            }
+
+            @Override
+            public X next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+                X info = atual.getInfo();
+                atual = atual.getProx();
+                return info;
+            }
 }

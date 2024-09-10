@@ -9,11 +9,13 @@ public class Main {
             grafo.adicionarVertice("B");
             grafo.adicionarVertice("C");
 
-            grafo.adicionarAresta("A","B", "1");
-            grafo.adicionarAresta("A","B", "2");
-
+            grafo.adicionarAresta("A","B", "A-B");
+            grafo.adicionarAresta("B","C", "B-C");
             System.out.println(grafo);
-
+            grafo.removerAresta("A","B");
+            System.out.println(grafo);
+            
+            
         } catch (Exception e) {
             e.printStackTrace();
         }

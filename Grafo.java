@@ -1,75 +1,119 @@
-import java.util.*;
 
 public class Grafo<X> {
+    //variaveis
     private ListaSimplesDesordenada<Vertice<X>> vertices;
     private ListaSimplesDesordenada<Aresta<X>> arestas;
 
+    //construtor
     public Grafo() {
         vertices = new ListaSimplesDesordenada<>();
         arestas = new ListaSimplesDesordenada<>();
     }
 
+    //metodo adionar vertece
     public void adicionarVertice(X info) throws Exception{
+        //verificação de informação
         if(info == null){
             throw new Exception("Informação ausente");
         }
+        //armazena informação na variavel
         Vertice<X> vertice = new Vertice<>(info);
+        //guardar vertice na lista ussando metodo da classe lista
         vertices.guardeUmItemNoInicio(vertice);
     }
 
-    public Vertice<X> buscarVertice(X info) throws Exception {
+
+    //metodo buscar vertice
+    public Vertice<X> buscarVertice(X info) throws Exception 
+    {
+        //verificando se existe informação
         if (info == null) {
-            throw new IllegalArgumentException("Informação não pode ser nula");
+            throw new Exception("Informação não pode ser nula");
         }
+        //inforamção que vat ser buscada
+        Vertice<X> buscaVert = new Vertice<>(info);
     
-        Vertice<X> verticeBuscado = new Vertice<>(info);
-    
-        // Utiliza o método 'buscarItem' para buscar o vértice na lista
-        Vertice<X> verticeEncontrado = vertices.buscarItem(verticeBuscado);
-    
-        if (verticeEncontrado == null) {
-            throw new NoSuchElementException("Vértice não encontrado");
+        //buscando info atraves do metodo da classe lista
+        Vertice<X> verticeEncontrada = vertices.buscarItem(buscaVert);
+        
+        //lança exesseção caso não ache
+        if (verticeEncontrada == null) {
+            throw new Exception("Vértice não encontrado");
         }
-    
-        return verticeEncontrado;
+        
+        //retornar vertice encontrada
+        return verticeEncontrada;
     }
     
     
     
-
-    public void adicionarAresta(X infoOrigem, X infoDestino, X infoAresta) throws Exception {
-        // Verifica se as informações fornecidas são válidas
-        if (infoOrigem == null || infoDestino == null || infoAresta == null) {
+    //metodo para adicioar aresta
+    public void adicionarAresta(X infoOrigem, X infoDestino, X info) throws Exception {
+        // Verifica se as informações 
+        if (infoOrigem == null || infoDestino == null || info == null) {
             throw new Exception("Alguma informação está ausente");
         }
-    
-        // Busca os vértices de origem e destino no grafo
+        // Busca  vertice de origem e destino
         Vertice<X> origem = buscarVertice(infoOrigem);
         Vertice<X> destino = buscarVertice(infoDestino);
-    
-        // Se não encontrar os vértices, lança uma exceção
+        // Se não encontrar os vertices, lança uma exceção
         if (origem == null) {
             throw new Exception("Vértice de origem não encontrado");
         }
         if (destino == null) {
             throw new Exception("Vértice de destino não encontrado");
         }
-    
-        // Cria a aresta e adiciona à lista de arestas
-        Aresta<X> aresta = new Aresta<>(origem, destino, infoAresta);
-    
+        // Cria a aresta e adiciona na lista de arestas
+        Aresta<X> aresta = new Aresta<>(origem, destino, info);
         // Verifica se a aresta já existe
         if (arestas.tem(aresta)) {
-            throw new Exception("Aresta já existe no grafo");
+            throw new Exception("Aresta já existe");
         }
-    
           // Adiciona a aresta à lista de arestas
         arestas.guardeUmItemNoInicio(aresta);
     }
+
+    //remover aresta
+    ppublic void removerAresta(X infoOrigem, X infoDestino) throws Exception {
+        // Verifica se as informações necessárias estão presentes
+        if (infoOrigem == null || infoDestino == null) {
+            throw new Exception("Informações de origem e destino não podem ser nulas");
+        }
+    
+        // Busca os vértices de origem e destino
+        Vertice<X> origem = buscarVertice(infoOrigem);
+        Vertice<X> destino = buscarVertice(infoDestino);
+    
+        // Cria uma nova aresta com as informações fornecidas
+        Aresta<X> arestaParaRemover = new Aresta<>(origem, destino, null);
+    
+        // Itera sobre a lista de arestas para encontrar a aresta completa
+        Aresta<X> arestaEncontrada = null;
+        for (Aresta<X> aresta : arestas) {
+            if (aresta.equals(arestaParaRemover)) {
+                arestaEncontrada = aresta;
+                break;
+            }
+        }
+    
+        // Lança exceção se a aresta não for encontrada
+        if (arestaEncontrada == null) {
+            throw new Exception("Aresta não encontrada");
+        }
+    
+        // Remove a aresta encontrada
+        arestas.removaItemIndicado(arestaEncontrada);
+    }
+    
+    
     
 
     @Override
     public String toString() {
-        return "Grafo [Vertices: " + vertices + " Arestas: " + arestas + "]";
+        return "Grafo {\n" +
+               "  Vértices: " + vertices + "\n" +
+               "  Arestas: " + arestas + "\n" +
+               "}";
     }
+    
 }
