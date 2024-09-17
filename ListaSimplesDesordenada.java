@@ -359,6 +359,7 @@ public class ListaSimplesDesordenada<X> implements Iterable<X> {
         return ret;
     }
 
+    //iterator é um metodo para percorrer a lista 
     @Override
     public Iterator<X> iterator() {
         return new Iterator<X>() {
