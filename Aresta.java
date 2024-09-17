@@ -20,20 +20,19 @@ public class Aresta<X> {
     public X getInfo() {
         return info;
     }
-
+    
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null || getClass() != obj.getClass())
+        }
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
+        }
         Aresta<?> aresta = (Aresta<?>) obj;
-        
-        // Checa se as informações são iguais, considerando que info pode ser nulo
-        boolean infoEquals = (info == null && aresta.info == null) || (info != null && info.equals(aresta.info));
-        
-        return origem.equals(aresta.origem) && destino.equals(aresta.destino) && infoEquals;
+        return this.origem.equals(aresta.origem) && this.destino.equals(aresta.destino);
     }
+    
 
     @Override
     public int hashCode() {
@@ -42,7 +41,12 @@ public class Aresta<X> {
         result = 31 * result + destino.hashCode();
         result = 31 * result + (info != null ? info.hashCode() : 0);
         return result;
-}
+    }
+
+    @Override
+    public String toString() {
+        return "Aresta{" + "origem=" + origem + ", destino=" + destino + ", info=" + info + '}';
+    }
 }
 
 
@@ -97,9 +101,6 @@ public class Aresta<X> {
 }
     
 
-    @Override
-    public String toString() {
-        return "Aresta{" + "origem=" + origem + ", destino=" + destino + ", info=" + info + '}';
-    }
+  
 }
 */

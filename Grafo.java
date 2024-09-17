@@ -50,31 +50,30 @@ public class Grafo<X> {
     //metodo para adicioar aresta
     public void adicionarAresta(X infoOrigem, X infoDestino, X info) throws Exception {
         // Verifica se as informações 
-        if (infoOrigem == null || infoDestino == null || info == null) {
-            throw new Exception("Alguma informação está ausente");
-        }
-        // Busca  vertice de origem e destino
-        Vertice<X> origem = buscarVertice(infoOrigem);
-        Vertice<X> destino = buscarVertice(infoDestino);
-        // Se não encontrar os vertices, lança uma exceção
-        if (origem == null) {
-            throw new Exception("Vértice de origem não encontrado");
-        }
-        if (destino == null) {
-            throw new Exception("Vértice de destino não encontrado");
-        }
-        // Cria a aresta e adiciona na lista de arestas
-        Aresta<X> aresta = new Aresta<>(origem, destino, info);
-        // Verifica se a aresta já existe
-        if (arestas.tem(aresta)) {
-            throw new Exception("Aresta já existe");
-        }
-          // Adiciona a aresta à lista de arestas
-        arestas.guardeUmItemNoInicio(aresta);
+        // Verifica se as informações 
+if (infoOrigem == null || infoDestino == null || info == null) {
+    throw new Exception("Alguma informação está ausente");
+}
+
+// Busca  vertice de origem e destino
+Vertice<X> origem = buscarVertice(infoOrigem);
+Vertice<X> destino = buscarVertice(infoDestino);
+
+// Cria a aresta e adiciona na lista de arestas
+Aresta<X> aresta = new Aresta<>(origem, destino, info);
+
+// Verifica se a aresta já existe
+if (arestas.tem(aresta)) {
+    throw new Exception("Aresta já existe");
+}
+
+// Adiciona a aresta à lista de arestas
+arestas.guardeUmItemNoInicio(aresta);
+
     }
 
     //remover aresta
-    ppublic void removerAresta(X infoOrigem, X infoDestino) throws Exception {
+    public void removerAresta(X infoOrigem, X infoDestino) throws Exception {
         // Verifica se as informações necessárias estão presentes
         if (infoOrigem == null || infoDestino == null) {
             throw new Exception("Informações de origem e destino não podem ser nulas");

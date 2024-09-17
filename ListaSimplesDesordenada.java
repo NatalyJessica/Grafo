@@ -1,5 +1,6 @@
 import java.lang.reflect.*;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class ListaSimplesDesordenada<X> implements Iterable<X> {
     // Classe interna representando um nó da lista
@@ -377,4 +378,7 @@ public class ListaSimplesDesordenada<X> implements Iterable<X> {
                 atual = atual.getProx();
                 return info;
             }
+        };
+
+    }
 }
